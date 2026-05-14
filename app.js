@@ -1,4 +1,3 @@
-
 import { db } from './firebase.js';
 import { requireAuth, logOut } from './auth.js';
 import {
@@ -11,19 +10,16 @@ import {
   orderBy,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-// Boot once auth is resolved.
 requireAuth((user) => initApp(user));
 
 function initApp(user) {
   'use strict';
 
-  // ── Constants ─────────────────────────────────────────
   const CURRENCY = '₹';
   const MAX_AMOUNT_INTEGER_DIGITS = 10;
 
   const transactionsRef = collection(db, 'users', user.uid, 'transactions');
 
-  // ── DOM refs ──────────────────────────────────────────
   const form          = document.getElementById('transaction-form');
   const amountInput   = document.getElementById('amount');
   const amountError   = document.getElementById('amount-error');
@@ -38,19 +34,14 @@ function initApp(user) {
   const expenseEl     = document.getElementById('expense');
   const countEl       = document.getElementById('count');
 
-  // User pill refs
   const userNameEl    = document.getElementById('user-name');
   const userEmailEl   = document.getElementById('user-email');
   const userAvatarEl  = document.getElementById('user-avatar');
 
-  // ── Render user identity ──────────────────────────────
   renderUserIdentity(user);
 
-  // ── In-memory transaction cache ───────────────────────
-  /** @type {{id:string, amount:number, type:'income'|'expense', category:string, note:string, createdAt:number}[]} */
   let transactions = [];
 
-  // ── Firestore helpers ─────────────────────────────────
   async function loadTransactions() {
     try {
       const q = query(transactionsRef, orderBy('createdAt', 'desc'));
@@ -82,7 +73,6 @@ function initApp(user) {
     }
   }
 
-  // ── User identity rendering ───────────────────────────
   function renderUserIdentity(u) {
     const displayName = u.displayName || (u.email ? u.email.split('@')[0] : 'User');
     const email       = u.email || '';
@@ -93,23 +83,19 @@ function initApp(user) {
 
     if (!userAvatarEl) return;
 
-    // Clear avatar container
     userAvatarEl.innerHTML = '';
 
     if (photoURL) {
-      // Use the user's Google profile picture.
       const img = document.createElement('img');
       img.src = photoURL;
       img.alt = displayName;
-      img.referrerPolicy = 'no-referrer';   // Google sometimes rejects without this
-      // If the image fails to load, fall back to the initial letter.
+      img.referrerPolicy = 'no-referrer';
       img.onerror = () => {
         userAvatarEl.innerHTML = '';
         userAvatarEl.textContent = getInitial(displayName, email);
       };
       userAvatarEl.appendChild(img);
     } else {
-      // Fallback: first letter of name/email on a colored background.
       userAvatarEl.textContent = getInitial(displayName, email);
     }
   }
@@ -119,7 +105,6 @@ function initApp(user) {
     return source.charAt(0).toUpperCase() || 'U';
   }
 
-  // ── Formatting helpers ────────────────────────────────
   function formatCurrency(value) {
     const sign = value < 0 ? '-' : '';
     const abs  = Math.abs(value);
@@ -139,7 +124,6 @@ function initApp(user) {
       .replace(/'/g, '&#39;');
   }
 
-  // ── Field validation helpers ──────────────────────────
   function setFieldError(input, errorEl, message) {
     input.classList.add('is-invalid');
     input.setAttribute('aria-invalid', 'true');
@@ -184,12 +168,10 @@ function initApp(user) {
     return { valid: true, value: val };
   }
 
-  // ── SVG icons ─────────────────────────────────────────
-  const ICON_EXPENSE = `<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17l9.2-9.2M17 17V7H7\"/></svg>`;
-  const ICON_INCOME  = `<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M17 7L7.8 16.2M7 7v10h10\"/></svg>`;
-  const ICON_DELETE  = `<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6\"/></svg>`;
+  const ICON_EXPENSE = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>`;
+  const ICON_INCOME  = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7L7.8 16.2M7 7v10h10"/></svg>`;
+  const ICON_DELETE  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6"/></svg>`;
 
-  // ── Rendering ─────────────────────────────────────────
   function render() {
     renderTotals();
     renderList();
@@ -227,24 +209,24 @@ function initApp(user) {
         const icon = t.type === 'income' ? ICON_INCOME : ICON_EXPENSE;
         const sign = t.type === 'income' ? '+' : '-';
         const noteHtml = t.note
-          ? `<p class=\"transaction__note\">${escapeHtml(t.note)}</p>`
-          : `<p class=\"transaction__note transaction__note--empty\">No note</p>`;
+          ? `<p class="transaction__note">${escapeHtml(t.note)}</p>`
+          : `<p class="transaction__note transaction__note--empty">No note</p>`;
 
         return `
-          <li class=\"transaction transaction--${t.type}\" data-id=\"${t.id}\" data-testid=\"transaction-item\">
-            <div class=\"transaction__icon\" aria-hidden=\"true\">${icon}</div>
-            <div class=\"transaction__body\">
-              <p class=\"transaction__category\" data-testid=\"transaction-category\">${escapeHtml(t.category)}</p>
+          <li class="transaction transaction--${t.type}" data-id="${t.id}" data-testid="transaction-item">
+            <div class="transaction__icon" aria-hidden="true">${icon}</div>
+            <div class="transaction__body">
+              <p class="transaction__category" data-testid="transaction-category">${escapeHtml(t.category)}</p>
               ${noteHtml}
             </div>
-            <span class=\"transaction__amount\" data-testid=\"transaction-amount\">${sign}${formatCurrency(t.amount).replace('-', '')}</span>
+            <span class="transaction__amount" data-testid="transaction-amount">${sign}${formatCurrency(t.amount).replace('-', '')}</span>
             <button
-              type=\"button\"
-              class=\"transaction__delete\"
-              aria-label=\"Delete transaction\"
-              data-action=\"delete\"
-              data-id=\"${t.id}\"
-              data-testid=\"delete-transaction\"
+              type="button"
+              class="transaction__delete"
+              aria-label="Delete transaction"
+              data-action="delete"
+              data-id="${t.id}"
+              data-testid="delete-transaction"
             >${ICON_DELETE}</button>
           </li>
         `;
@@ -252,7 +234,6 @@ function initApp(user) {
       .join('');
   }
 
-  // ── Event handlers ────────────────────────────────────
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -267,7 +248,7 @@ function initApp(user) {
 
     if (!amountResult.valid || !categoryResult.valid) return;
 
-    const submitBtn = form.querySelector('[type=\"submit\"]');
+    const submitBtn = form.querySelector('[type="submit"]');
     submitBtn.disabled = true;
 
     try {
@@ -293,13 +274,13 @@ function initApp(user) {
   }
 
   async function handleListClick(event) {
-    const button = event.target.closest('[data-action=\"delete\"]');
+    const button = event.target.closest('[data-action="delete"]');
     if (!button) return;
 
     const { id } = button.dataset;
     if (!id) return;
 
-    const li = listEl.querySelector(`[data-id=\"${id}\"]`);
+    const li = listEl.querySelector(`[data-id="${id}"]`);
     if (li) li.style.opacity = '0.4';
 
     await removeTransaction(id);
@@ -314,6 +295,7 @@ function initApp(user) {
       setFieldError(amountInput, amountError, 'Amount cannot exceed 10 digits before the decimal.');
       return;
     }
+
     clearFieldError(amountInput, amountError);
   }
 
@@ -333,7 +315,6 @@ function initApp(user) {
     clearFieldError(categoryInput, categoryError);
   }
 
-  // ── Bootstrap ─────────────────────────────────────────
   async function start() {
     await loadTransactions();
     render();
@@ -349,4 +330,3 @@ function initApp(user) {
 
   start();
 }
-
