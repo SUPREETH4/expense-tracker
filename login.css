@@ -14,7 +14,7 @@ login-page {
   position: relative;
 }
 
-/* ── Card ───────────────────────────────────────────── */
+
 .login-card {
   width: min(100%, 440px);
   padding: var(--space-8) var(--space-7, 28px);
@@ -49,7 +49,7 @@ login-page {
   color: var(--color-text-muted);
 }
 
-/* ── Segmented tabs ─────────────────────────────────── */
+
 .auth-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -82,7 +82,7 @@ login-page {
   box-shadow: 0 2px 8px rgba(17, 24, 39, 0.08);
 }
 
-/* ── Google button ──────────────────────────────────── */
+
 .btn--google {
   width: 100%;
   height: 48px;
@@ -122,7 +122,7 @@ login-page {
 
 .google-icon { flex-shrink: 0; }
 
-/* ── Divider ────────────────────────────────────────── */
+
 .auth-divider {
   display: flex;
   align-items: center;
@@ -143,7 +143,7 @@ login-page {
   background: linear-gradient(to right, transparent, var(--color-border-strong), transparent);
 }
 
-/* ── Form ───────────────────────────────────────────── */
+
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -154,7 +154,7 @@ login-page {
 
 .form__input--with-suffix { padding-right: 44px; }
 
-/* ── Password show/hide toggle ──────────────────────── */
+
 .password-toggle {
   position: absolute;
   right: 8px;
@@ -181,7 +181,7 @@ login-page {
 .password-toggle--visible .password-toggle__eye { display: none; }
 .password-toggle--visible .password-toggle__eye-off { display: block; }
 
-/* ── Inline auth error ──────────────────────────────── */
+
 .auth-error {
   display: none;
   font-size: 13px;
@@ -197,7 +197,6 @@ login-page {
 
 .auth-error--visible { display: block; }
 
-/* ── Submit button (with spinner) ───────────────────── */
 .auth-form__submit {
   width: 100%;
   height: 48px;
@@ -219,7 +218,7 @@ login-page {
 .btn--loading .btn__spinner { display: inline-block; }
 .btn--loading { cursor: progress; }
 
-/* ── Switch link below submit ───────────────────────── */
+
 .auth-switch {
   text-align: center;
   font-size: 13px;
@@ -244,7 +243,7 @@ login-page {
   text-decoration: underline;
 }
 
-/* ── Toast ──────────────────────────────────────────── */
+
 .toast {
   position: fixed;
   left: 50%;
@@ -269,7 +268,7 @@ login-page {
   transform: translate(-50%, 0);
 }
 
-/* ── Animations ─────────────────────────────────────── */
+
 @keyframes loginEnter {
   from { opacity: 0; transform: translateY(12px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0)    scale(1); }
@@ -285,7 +284,6 @@ login-page {
   75%      { transform: translateX(4px); }
 }
 
-/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 480px) {
   .login-card {
     padding: var(--space-6) var(--space-5);
