@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Header ────────────────────────────────────── -->
+    <header class="header">
+      <div class="header__top">
+        <div class="brand">
+          <div class="brand__logo" aria-hidden="true">₹</div>
+          <h1 class="brand__title">Expense Tracker</h1>
+        </div>
+
+        <div class="header__user">
+ 
+          <!-- Avatar: photo or initial fallback -->
+          <!--
+            app.js will:
+            1. Set user-avatar src and show it  (when photoURL exists)
+            2. Set user-avatar-initial text and show it (when no photoURL)
+          -->
+          <div class="user-avatar-wrap" aria-hidden="true">
+            <img
+              id="user-avatar"
+              class="user-avatar"
+              src=""
+              alt=""
+              width="36"
+              height="36"
+            >
+            <div
+              id="user-avatar-initial"
+              class="user-avatar-initial"
+              aria-hidden="true"
+            ></div>
+          </div>
+ 
+          <span id="user-name" class="user-name"></span>
+ 
+          <button
+            type="button"
+            class="btn btn--secondary header__logout"
+            id="logout-button"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <div class="balance-card">
+        <p class="balance-card__label">Current Balance</p>
+        <h2 class="balance-card__amount" id="balance" data-testid="current-balance">₹0.00</h2>
+      </div>
+    </header>
+
+    <!-- ── Summary ───────────────────────────────────── -->
+    <section class="summary" aria-label="Income and expense summary">
+      <div class="summary__item summary__item--income">
+        <div class="summary__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 7L7.8 16.2M7 7v10h10"/>
+          </svg>
+        </div>
+        <div class="summary__content">
+          <p class="summary__label">Income</p>
+          <p class="summary__amount summary__amount--income" id="income">₹0.00</p>
+        </div>
+      </div>
+
+      <div class="summary__item summary__item--expense">
+        <div class="summary__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+          </svg>
+        </div>
+        <div class="summary__content">
+          <p class="summary__label">Expense</p>
+          <p class="summary__amount summary__amount--expense" id="expense">₹0.00</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Add Transaction Form ───────────────────────── -->
+    <section class="card form-card" aria-label="Add transaction">
+      <h3 class="card__title">Add Transaction</h3>
+
+      <form class="form" id="transaction-form" data-testid="transaction-form" novalidate>
+        <div class="form__row">
+          <div class="form__field">
+            <label for="amount" class="form__label">Amount</label>
+            <div class="form__input-wrap">
+              <span class="form__prefix">₹</span>
+              <input
+                type="text"
+                inputmode="decimal"
+                name="amount"
+                id="amount"
+                class="form__input form__input--with-prefix"
+                placeholder="0.00"
+                autocomplete="off"
+                aria-describedby="amount-error"
+                data-testid="amount-input"
+                required
+              >
+            </div>
+            <p class="form__error" id="amount-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form__field">
+            <label class="form__label">Type</label>
+            <div class="radio-group" role="radiogroup" aria-label="Transaction type">
+              <label class="radio radio--income">
+                <input type="radio" name="type" value="income" checked data-testid="type-income">
+                <span class="radio__dot"></span>
+                <span class="radio__label">Income</span>
+              </label>
+              <label class="radio radio--expense">
+                <input type="radio" name="type" value="expense" data-testid="type-expense">
+                <span class="radio__dot"></span>
+                <span class="radio__label">Expense</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="form__field">
+            <label for="category" class="form__label">Category</label>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              class="form__input"
+              maxlength="40"
+              required
+              placeholder="e.g Salary, Food, Travel"
+              aria-describedby="category-error"
+              data-testid="category-input"
+            >
+            <p class="form__error" id="category-error" aria-live="polite"></p>
+          </div>
+
+          <div class="form__field">
+            <label for="note" class="form__label">Note <span class="form__hint">(optional)</span></label>
+            <input
+              type="text"
+              id="note"
+              name="note"
+              class="form__input"
+              placeholder="Add a short note"
+              maxlength="80"
+              data-testid="note-input"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn--primary" data-testid="submit-transaction">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Add Transaction
+        </button>
+      </form>
+    </section>
+
+    <!-- ── Transaction List ───────────────────────────── -->
+    <section class="card list-card" aria-label="Transaction history">
+      <div class="list-card__header">
+        <h3 class="card__title">Transactions</h3>
+        <span class="list-card__count" id="count" data-testid="transaction-count">0</span>
+      </div>
+
+      <ul class="transactions" id="transaction-list" data-testid="transaction-list"></ul>
+
+      <div class="empty-state" id="empty-state" data-testid="empty-state">
+        <div class="empty-state__icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="M3 10h18M7 15h4"/>
+          </svg>
+        </div>
+        <p class="empty-state__title">No transactions yet</p>
+        <p class="empty-state__subtitle">Add your first transaction using the form above.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Built with HTML, CSS & JavaScript · Powered by Firebase</p>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

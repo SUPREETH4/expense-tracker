@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+
+  <main class="login-shell" aria-label="Expense Tracker login">
+    <section class="login-card" aria-labelledby="login-title">
+
+      <!-- Brand -->
+      <div class="login-card__brand">
+        <div class="brand__logo" aria-hidden="true">₹</div>
+        <div>
+          <h1 class="login-card__title" id="login-title">Expense Tracker</h1>
+          <p class="login-card__subtitle">Welcome — track your money efficiently.</p>
+        </div>
+      </div>
+
+      <!-- Login / Sign-up segmented toggle -->
+      <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+        <button
+          type="button"
+          class="auth-tabs__btn auth-tabs__btn--active"
+          id="tab-login"
+          role="tab"
+          aria-selected="true"
+          data-mode="login"
+        >Login</button>
+        <button
+          type="button"
+          class="auth-tabs__btn"
+          id="tab-signup"
+          role="tab"
+          aria-selected="false"
+          data-mode="signup"
+        >Create Account</button>
+      </div>
+
+      <!-- Google Sign-In -->
+      <button
+        type="button"
+        id="google-signin-btn"
+        class="btn btn--google"
+        aria-label="Continue with Google"
+      >
+        <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20" aria-hidden="true">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          <path fill="none" d="M0 0h48v48H0z"/>
+        </svg>
+        <span class="btn__label">Continue with Google</span>
+      </button>
+
+      <!-- Divider -->
+      <div class="auth-divider" aria-hidden="true">
+        <span>or continue with email</span>
+      </div>
+
+      <!-- Email/Password form -->
+      <form id="email-form" class="auth-form" novalidate>
+        <!-- Name (signup only) -->
+        <div class="form__field auth-field-name" id="field-name" hidden>
+          <label for="name" class="form__label">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form__input"
+            placeholder="Your name"
+            autocomplete="name"
+            maxlength="60"
+          >
+        </div>
+
+        <div class="form__field">
+          <label for="email" class="form__label">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form__input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="form__field">
+          <label for="password" class="form__label">Password</label>
+          <div class="form__input-wrap">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form__input form__input--with-suffix"
+              placeholder="At least 6 characters"
+              autocomplete="current-password"
+              minlength="6"
+              required
+            >
+            <button
+              type="button"
+              class="password-toggle"
+              id="password-toggle"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              <!-- eye icon (open) -->
+              <svg class="password-toggle__eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <!-- eye-off icon (hidden by default) -->
+              <svg class="password-toggle__eye-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.77 19.77 0 0 1 4.22-5.36"/>
+                <path d="M22.54 12.88A19.7 19.7 0 0 0 23 12s-4-8-11-8a10.94 10.94 0 0 0-3.06.44"/>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Confirm password (signup only) -->
+        <div class="form__field auth-field-confirm" id="field-confirm" hidden>
+          <label for="confirm-password" class="form__label">Confirm Password</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            class="form__input"
+            placeholder="Re-enter password"
+            autocomplete="new-password"
+            minlength="6"
+          >
+        </div>
+
+        <!-- Inline error -->
+        <p class="auth-error" id="auth-error" role="alert" aria-live="polite"></p>
+
+        <button type="submit" class="btn btn--primary auth-form__submit" id="auth-submit">
+          <span class="btn__spinner" aria-hidden="true"></span>
+          <span class="btn__label" id="auth-submit-label">Log in</span>
+        </button>
+
+        <p class="auth-switch">
+          <span id="auth-switch-text">Don't have an account?</span>
+          <button type="button" class="auth-switch__link" id="auth-switch-btn">Create one</button>
+        </p>
+      </form>
+
+    </section>
+
+    <!-- Toast for transient feedback -->
+    <div class="toast" id="login-toast" role="alert" aria-live="assertive"></div>
+  </main>
+
+  <!-- Firebase modular SDK — must be type="module" -->
+  <script type="module">
+    import {
+      redirectIfAuthenticated,
+      signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
+      getAuthErrorMessage,
+    } from './auth.js';
+
+    // Skip the login page if already signed in.
+    redirectIfAuthenticated();
+
+    // ── Element refs ────────────────────────────────────
+    const tabLogin       = document.getElementById('tab-login');
+    const tabSignup      = document.getElementById('tab-signup');
+    const fieldName      = document.getElementById('field-name');
+    const fieldConfirm   = document.getElementById('field-confirm');
+    const form           = document.getElementById('email-form');
+    const nameInput      = document.getElementById('name');
+    const emailInput     = document.getElementById('email');
+    const passwordInput  = document.getElementById('password');
+    const confirmInput   = document.getElementById('confirm-password');
+    const submitBtn      = document.getElementById('auth-submit');
+    const submitLabel    = document.getElementById('auth-submit-label');
+    const errorEl        = document.getElementById('auth-error');
+    const switchText     = document.getElementById('auth-switch-text');
+    const switchBtn      = document.getElementById('auth-switch-btn');
+    const googleBtn      = document.getElementById('google-signin-btn');
+    const passwordToggle = document.getElementById('password-toggle');
+    const toast          = document.getElementById('login-toast');
+
+    let mode = 'login';          // 'login' | 'signup'
+    let toastTimer = null;
+
+    // ── Helpers ─────────────────────────────────────────
+    function showToast(message) {
+      if (!message) return;
+      toast.textContent = message;
+      toast.classList.add('toast--visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('toast--visible'), 4000);
+    }
+
+    function showError(message) {
+      errorEl.textContent = message || '';
+      errorEl.classList.toggle('auth-error--visible', !!message);
+    }
+
+    function setLoading(btn, isLoading, labelEl, loadingText, idleText) {
+      btn.disabled = isLoading;
+      btn.classList.toggle('btn--loading', isLoading);
+      if (labelEl) labelEl.textContent = isLoading ? loadingText : idleText;
+    }
+
+    function setMode(next) {
+      mode = next;
+      const isSignup = mode === 'signup';
+
+      tabLogin.classList.toggle('auth-tabs__btn--active', !isSignup);
+      tabSignup.classList.toggle('auth-tabs__btn--active',  isSignup);
+      tabLogin.setAttribute('aria-selected',  String(!isSignup));
+      tabSignup.setAttribute('aria-selected',  String(isSignup));
+
+      fieldName.hidden    = !isSignup;
+      fieldConfirm.hidden = !isSignup;
+
+      passwordInput.setAttribute('autocomplete', isSignup ? 'new-password' : 'current-password');
+
+      submitLabel.textContent  = isSignup ? 'Create account' : 'Log in';
+      switchText.textContent   = isSignup ? 'Already have an account?' : "Don't have an account?";
+      switchBtn.textContent    = isSignup ? 'Log in'                    : 'Create one';
+
+      showError('');
+    }
+
+    // ── Tab + switch wiring ─────────────────────────────
+    tabLogin.addEventListener('click',  () => setMode('login'));
+    tabSignup.addEventListener('click', () => setMode('signup'));
+    switchBtn.addEventListener('click', () => setMode(mode === 'login' ? 'signup' : 'login'));
+
+    // ── Password show/hide ──────────────────────────────
+    passwordToggle.addEventListener('click', () => {
+      const isVisible = passwordInput.type === 'text';
+      passwordInput.type = isVisible ? 'password' : 'text';
+      passwordToggle.setAttribute('aria-pressed', String(!isVisible));
+      passwordToggle.setAttribute('aria-label', isVisible ? 'Show password' : 'Hide password');
+      passwordToggle.classList.toggle('password-toggle--visible', !isVisible);
+    });
+
+    // ── Clear error when user edits the form ────────────
+    form.addEventListener('input', () => showError(''));
+
+    // ── Email/password submit ───────────────────────────
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email    = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      // Client-side validation
+      if (!email)                                  return showError('Please enter your email.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('That email address looks invalid.');
+      if (!password)                               return showError('Please enter your password.');
+      if (password.length < 6)                     return showError('Password must be at least 6 characters.');
+
+      if (mode === 'signup' && confirmInput.value !== password) {
+        return showError('Passwords do not match.');
+      }
+
+      setLoading(submitBtn, true, submitLabel,
+        mode === 'signup' ? 'Creating account…' : 'Signing in…',
+        mode === 'signup' ? 'Create account'    : 'Log in');
+
+      try {
+        if (mode === 'signup') {
+          await signUpWithEmail(email, password, nameInput.value);
+        } else {
+          await signInWithEmail(email, password);
+        }
+        window.location.href = 'index.html';
+      } catch (err) {
+        console.error('Auth error:', err);
+        showError(getAuthErrorMessage(err));
+        setLoading(submitBtn, false, submitLabel, '',
+          mode === 'signup' ? 'Create account' : 'Log in');
+      }
+    });
+
+    // ── Google Sign-In ──────────────────────────────────
+    googleBtn.addEventListener('click', async () => {
+      googleBtn.disabled = true;
+      googleBtn.classList.add('btn--loading');
+      try {
+        await signInWithGoogle();
+        window.location.href = 'index.html';
+      } catch (err) {
+        const msg = getAuthErrorMessage(err);
+        if (msg) showToast(msg);
+        console.error('Google sign-in error:', err);
+        googleBtn.disabled = false;
+        googleBtn.classList.remove('btn--loading');
+      }
+    });
+
+    // Initialise UI
+    setMode('login');
+  </script>
+
+</body>
+</html>
